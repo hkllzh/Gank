@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.hkllzh.gank.study.StudyRxJava
+import com.hkllzh.gank.ui.IndexActivity
 import com.hkllzh.gank.ui.MainActivity
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
@@ -32,8 +33,9 @@ class SplashActivity : AppCompatActivity() {
         Observable.timer(2, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    val i = Intent(this, MainActivity::class.java)
+                    val i = Intent(this, IndexActivity::class.java)
                     startActivity(i)
+                    finish()
                 })
     }
 

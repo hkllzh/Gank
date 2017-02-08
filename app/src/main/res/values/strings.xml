@@ -4,4 +4,10 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="splash_content">gank.io</string>
     <string name="hello">hello</string>
+    <string name="title_activity_index">IndexActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
