@@ -3,4 +3,5 @@
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="splash_content">gank.io</string>
+    <string name="hello">hello</string>
 </resources>

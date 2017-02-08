@@ -1,4 +1,4 @@
-package com.hkllzh.gank
+package com.hkllzh.gank.study
 
 /**
  * Created by lizheng on 2017/2/7.

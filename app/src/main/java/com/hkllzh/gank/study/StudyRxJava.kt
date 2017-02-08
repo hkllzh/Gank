@@ -58,7 +58,6 @@ class StudyRxJava {
             }
         }
 
-
         // 2. 观察者2 实现一个抽象类，功能更多一些
         val observer2 = object : Subscriber<String>() {
             override fun onError(e: Throwable?) {
