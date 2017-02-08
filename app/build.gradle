@@ -16,12 +16,12 @@ android {
     buildTypes {
         debug {
             ndk {
-                abiFilters 'armeabi-v7a'
+                abiFilters 'armeabi-v7a', 'x86'
             }
         }
         release {
             ndk {
-                abiFilters 'armeabi-v7a'
+                abiFilters 'armeabi-v7a', 'x86'
             }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
