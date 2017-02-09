@@ -10,6 +10,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="nav_title">干货集中营</string>
-    <string name="nav_content">每日分享妹子图和技术干货，还有供大家中午休息的休闲视频</string>
+    <string name="nav_gank_title">干货集中营</string>
+    <string name="nav_gank_url">http://gank.io</string>
+    <string name="nav_gank_content">每日分享妹子图和技术干货，还有供大家中午休息的休闲视频</string>
 </resources>

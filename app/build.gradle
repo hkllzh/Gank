@@ -51,7 +51,11 @@ dependencies {
 
     // 网络请求 支持
     compile "com.squareup.okhttp3:okhttp:$rootProject.ext.okhttp_version"
+    compile "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okhttp_version"
+    
     compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofit_version"
 
     // RxJava 支持
     compile "io.reactivex:rxjava:$rootProject.ext.rxjava_version"

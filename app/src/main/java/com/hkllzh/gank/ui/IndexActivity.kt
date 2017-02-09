@@ -2,20 +2,24 @@ package com.hkllzh.gank.ui
 
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.view.View
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.Menu
+import android.util.Log
 import android.view.MenuItem
-
 import com.hkllzh.gank.R
+import com.hkllzh.gank.net.APIManager
+import com.hkllzh.gank.net.GankApi
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private val TAG = "IndexActivity";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,22 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+
+        APIManager.getApi(GankApi::class.java).login()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {
+                            Log.d(TAG, "onNext-->" + it.toString())
+                        },
+                        {
+                            Log.d(TAG, "onError-->" + it)
+                            it?.printStackTrace()
+                        },
+                        {
+                            Log.d(TAG, "onCompleted-->")
+                        }
+                )
     }
 
     override fun onBackPressed() {
