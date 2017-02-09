@@ -34,7 +34,7 @@ class APIManager {
                             .client(client)
                             .addConverterFactory(GsonConverterFactory.create())
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                            .baseUrl("http://gank.io/api/data/")
+                            .baseUrl("http://gank.io/api/")
                             .build().create(clazz)
                     APICache.put(clazz.name, api!!)
                 }

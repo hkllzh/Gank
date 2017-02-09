@@ -42,12 +42,28 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
 
-        APIManager.getApi(GankApi::class.java).login()
+//        APIManager.getApi(GankApi::class.java).login()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        { jsonObject ->
+//                            Log.d(TAG, "onNext-->" + jsonObject.toString())
+//                        },
+//                        {
+//                            Log.d(TAG, "onError-->" + it)
+//                            it?.printStackTrace()
+//                        },
+//                        {
+//                            Log.d(TAG, "onCompleted-->")
+//                        }
+//                )
+
+        APIManager.getApi(GankApi::class.java).category("Android", 2, 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        {
-                            Log.d(TAG, "onNext-->" + it.toString())
+                        { jsonObject ->
+                            Log.d(TAG, "onNext-->" + jsonObject.toString())
                         },
                         {
                             Log.d(TAG, "onError-->" + it)
@@ -57,6 +73,7 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                             Log.d(TAG, "onCompleted-->")
                         }
                 )
+
     }
 
     override fun onBackPressed() {
