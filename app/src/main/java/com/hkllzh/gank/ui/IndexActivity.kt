@@ -74,6 +74,13 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                         }
                 )
 
+        APIManager.getApi(GankApi::class.java).haveDataHistory()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    Log.d(TAG, it.toString())
+                }
+
     }
 
     override fun onBackPressed() {

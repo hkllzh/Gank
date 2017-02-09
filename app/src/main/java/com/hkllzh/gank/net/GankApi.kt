@@ -21,7 +21,7 @@ interface GankApi {
      */
     @GET("data/{category}/{count}/{page}")
     fun category(@Path("category") category: String,
-                 @Path("limit") count: Int,
+                 @Path("count") count: Int = 10,
                  @Path("page") page: Int): Observable<JsonObject>
 
     /**
@@ -87,4 +87,11 @@ interface GankApi {
      */
     @GET("history/content/day/{year}/{month}/{day}")
     fun historyDay(year: Int, month: Int, day: Int): Observable<JsonObject>
+
+    /**
+     * 干货日期接口
+     * example : http://gank.io/api/day/history
+     */
+    @GET("day/history")
+    fun haveDataHistory(): Observable<JsonObject>
 }
