@@ -40,6 +40,7 @@ dependencies {
     compile "com.android.support:support-v4:$rootProject.ext.support_version"
     compile "com.android.support:appcompat-v7:$rootProject.ext.support_version"
     compile "com.android.support:design:$rootProject.ext.support_version"
+    compile "com.android.support:recyclerview-v7:$rootProject.ext.support_version"
 
     // 测试 支持
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -52,7 +53,7 @@ dependencies {
     // 网络请求 支持
     compile "com.squareup.okhttp3:okhttp:$rootProject.ext.okhttp_version"
     compile "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okhttp_version"
-    
+
     compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit_version"
     compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofit_version"
@@ -64,8 +65,14 @@ dependencies {
     // 图片加载 支持
     compile "com.facebook.fresco:fresco:$rootProject.ext.fresco_version"
 
+    // RecyclerView 多 item 支持库
+    compile('me.drakeet.multitype:multitype:2.4.1', {
+        exclude group: 'com.android.support'
+    })
 
 
+
+    compile 'com.android.support:support-v4:25.1.1'
     testCompile 'junit:junit:4.12'
 }
 repositories {

@@ -68,7 +68,7 @@ class APIManager {
 //        if (null == client) {
 //            client = getOkHttpClient();
 //        }
-//        T api = (T) APICache.get(clazz.getName());
+//        T api = (T) APICache.get(clazz.getTabTitle());
 //        if (api == null) {
 //            synchronized (APIManager.class) {
 //                if (api != null) return api;
@@ -77,7 +77,7 @@ class APIManager {
 //                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 //                .baseUrl(Constant.Net.BASE_URL)
 //                .build().create(clazz);
-//                APICache.put(clazz.getName(), api);
+//                APICache.put(clazz.getTabTitle(), api);
 //            }
 //        }
 //        return api;

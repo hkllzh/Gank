@@ -13,4 +13,7 @@
     <string name="nav_gank_title">干货集中营</string>
     <string name="nav_gank_url">http://gank.io</string>
     <string name="nav_gank_content">每日分享妹子图和技术干货，还有供大家中午休息的休闲视频</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
