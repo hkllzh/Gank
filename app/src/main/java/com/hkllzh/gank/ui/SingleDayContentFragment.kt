@@ -10,22 +10,19 @@ import android.widget.TextView
 import com.hkllzh.gank.R
 import com.hkllzh.gank.net.APIManager
 import com.hkllzh.gank.net.GankApi
+import io.realm.Realm
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import kotlin.properties.Delegates
 
 /**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [SingleDayContentFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [SingleDayContentFragment.newInstance] factory method to
- * create an instance of this fragment.
+ *
  */
 class SingleDayContentFragment : Fragment() {
 
     private val TAG = "SingleDayContentFrg"
 
-    private var tvTest: TextView? = null
+    private var tvTest: TextView by Delegates.notNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,30 +38,32 @@ class SingleDayContentFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.d(TAG, "onActivityCreated")
-        APIManager.getApi(GankApi::class.java).category("Android", 2, 1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { jsonObject ->
-                            Log.d(TAG, "onNext-->" + jsonObject.toString())
-                        },
-                        {
-                            Log.d(TAG, "onError-->" + it)
-                            it?.printStackTrace()
-                        },
-                        {
-                            Log.d(TAG, "onCompleted-->")
-                        }
-                )
+//        APIManager.getApi(GankApi::class.java).category("Android", 2, 1)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        { jsonObject ->
+//                            Log.d(TAG, "onNext-->" + jsonObject.toString())
+//                        },
+//                        {
+//                            Log.d(TAG, "onError-->" + it)
+//                            it?.printStackTrace()
+//                        },
+//                        {
+//                            Log.d(TAG, "onCompleted-->")
+//                        }
+//                )
 
-        APIManager.getApi(GankApi::class.java).haveDataHistory()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    Log.d(TAG, it.toString())
-                    tvTest?.text = it.toString()
-                }
+//        APIManager.getApi(GankApi::class.java).haveDataHistory()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe {
+//                    Log.d(TAG, it.toString())
+//                    tvTest.text = it.toString()
+//                }
     }
+
+    private var realm: Realm by Delegates.notNull()
 
     companion object {
         // TODO: Rename and change types and number of parameters

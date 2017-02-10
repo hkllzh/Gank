@@ -3,7 +3,7 @@ package com.hkllzh.gank.adapter
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import com.hkllzh.gank.db.TabFragmentBean
+import com.hkllzh.gank.bean.TabFragmentBean
 import java.util.*
 
 class IndexViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {

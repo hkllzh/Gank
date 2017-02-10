@@ -9,15 +9,19 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.MenuItem
 import com.hkllzh.gank.R
 import com.hkllzh.gank.adapter.IndexViewPagerAdapter
-import com.hkllzh.gank.db.TabFragmentBean
+import com.hkllzh.gank.bean.TabFragmentBean
+import com.hkllzh.gank.db.HistoryDataDB
+import com.hkllzh.gank.net.haveDataHistory
 import java.util.*
 
 class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private val TAG = "IndexActivity";
+    private val debug = true
+    private val TAG = "IndexActivity"
     private val tabFrgs = ArrayList<TabFragmentBean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,9 +41,6 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
 
         val tabLayout = findViewById(R.id.tabLayout) as TabLayout
-        // tabLayout.addTab(tabLayout.newTab().setText(R.string.nav_gank_title))
-        // tabLayout.addTab(tabLayout.newTab().setText("Android"))
-        // tabLayout.addTab(tabLayout.newTab().setText(""))
 
         tabFrgs.add(TabFragmentBean("收藏", SingleDayContentFragment.newInstance()))
         tabFrgs.add(TabFragmentBean("今日", SingleDayContentFragment.newInstance()))
@@ -54,7 +55,13 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         tabLayout.setupWithViewPager(viewPager)
         tabLayout.getTabAt(1)?.select()
 
-
+        haveDataHistory().subscribe {
+            HistoryDataDB.newInstance()?.addAll(it)
+            val lastDate = HistoryDataDB.newInstance()?.latest()
+            if (debug) {
+                Log.d(TAG, "lastDate = $lastDate")
+            }
+        }
     }
 
     override fun onBackPressed() {

@@ -1,4 +1,4 @@
-package com.hkllzh.gank.db
+package com.hkllzh.gank.bean
 
 import android.support.v4.app.Fragment
 
