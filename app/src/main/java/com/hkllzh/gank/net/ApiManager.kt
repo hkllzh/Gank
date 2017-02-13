@@ -43,7 +43,7 @@ class APIManager {
             return api
         }
 
-        private fun getOkHttpClient(): OkHttpClient {
+        private fun initOkHttpClient(): OkHttpClient {
             val loggingInterceptor = HttpLoggingInterceptor()
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -61,6 +61,13 @@ class APIManager {
                     //打印日志
                     .addInterceptor(loggingInterceptor)
                     .build()
+        }
+
+        fun getOkHttpClient(): OkHttpClient {
+            if (null == client) {
+                client = initOkHttpClient()
+            }
+            return client!!
         }
     }
 
