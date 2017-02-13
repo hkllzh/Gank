@@ -9,13 +9,16 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
 import com.hkllzh.gank.R
 import com.hkllzh.gank.adapter.IndexViewPagerAdapter
 import com.hkllzh.gank.bean.TabFragmentBean
 import com.hkllzh.gank.db.HistoryDataDB
+import com.hkllzh.gank.event.GetAllDate
 import com.hkllzh.gank.net.haveDataHistory
+import com.hkllzh.gank.util.RxBus
 import java.util.*
 
 class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -55,12 +58,25 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         tabLayout.setupWithViewPager(viewPager)
         tabLayout.getTabAt(1)?.select()
 
+        // 获取所有的日期
         haveDataHistory().subscribe {
-            HistoryDataDB.newInstance()?.addAll(it)
             val lastDate = HistoryDataDB.newInstance()?.latest()
             if (debug) {
                 Log.d(TAG, "lastDate = $lastDate")
             }
+
+            // 数据库还没有存储
+            if (TextUtils.isEmpty(lastDate)) {
+                HistoryDataDB.newInstance()?.addAll(it)
+            }
+
+            // 数据库存储的和最新的不匹配
+            if (!lastDate.equals(it[0])) {
+                HistoryDataDB.newInstance()?.addAll(it)
+            }
+
+            // 通知需要刷新的地方
+            RxBus.getDefault().post(GetAllDate())
         }
     }
 

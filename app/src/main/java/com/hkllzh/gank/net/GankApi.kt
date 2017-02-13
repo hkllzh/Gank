@@ -61,7 +61,9 @@ interface GankApi {
      * @param day 日
      */
     @GET("day/{year}/{month}/{day}")
-    fun day(year: Int, month: Int, day: Int): Observable<JsonObject>
+    fun day(@Path("year") year: Int,
+            @Path("month") month: Int,
+            @Path("day") day: Int): Observable<JsonObject>
 
 
     /**
@@ -86,7 +88,9 @@ interface GankApi {
      * @param day 日
      */
     @GET("history/content/day/{year}/{month}/{day}")
-    fun historyDay(year: Int, month: Int, day: Int): Observable<JsonObject>
+    fun historyDay(@Path("year") year: Int,
+                   @Path("month") month: Int,
+                   @Path("day") day: Int): Observable<JsonObject>
 
     /**
      * 干货日期接口
