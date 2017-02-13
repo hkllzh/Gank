@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import com.hkllzh.gank.R
 import com.hkllzh.gank.adapter.item.category_content.CategoryContent
 import com.hkllzh.gank.adapter.item.category_content.CategoryContentViewProvider
+import com.hkllzh.gank.adapter.item.category_content.CategoryTitle
+import com.hkllzh.gank.adapter.item.category_content.CategoryTitleViewProvider
 import com.hkllzh.gank.db.HistoryDataDB
 import com.hkllzh.gank.event.GetAllDate
 import com.hkllzh.gank.net.APIManager
@@ -21,6 +23,7 @@ import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.util.*
 import kotlin.properties.Delegates
 
 
@@ -50,6 +53,7 @@ class SingleDayContentFragment : Fragment() {
 
         adapter = MultiTypeAdapter()
         adapter?.register(CategoryContent::class.java, CategoryContentViewProvider())
+        adapter?.register(CategoryTitle::class.java, CategoryTitleViewProvider())
         recyclerView.adapter = adapter
 
         return v
@@ -106,14 +110,34 @@ class SingleDayContentFragment : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Log.d(TAG, "it - >" + it.toString())
+                    jsonObject ->
 
-                    val l = 1..100
-                    l.forEach {
-                        item.add(CategoryContent("$it"))
+                    var category: ArrayList<String>? = null
+                    if (jsonObject.has("category") && jsonObject.get("category").isJsonArray) {
+                        category = ArrayList()
+                        jsonObject.get("category").asJsonArray.forEach {
+                            category?.add(it.asString)
+                        }
                     }
+
+                    if (null == category || 0 == category.size) {
+                        return@subscribe
+                    }
+
+                    if (jsonObject.has("results") && jsonObject.get("results").isJsonObject) {
+                        jsonObject.get("category").asJsonArray.forEach {
+                            title ->
+                            val jsonResult = jsonObject.get("results").asJsonObject
+                            item.add(CategoryTitle(title = title.asString))
+                            jsonResult.get(title.asString).asJsonArray.forEach {
+                                item.add(CategoryContent(it.asJsonObject.get("desc").asString))
+                            }
+                        }
+                    }
+
                     adapter?.setItems(item)
                     adapter?.notifyDataSetChanged()
+
 
                 }, {}, {})
     }

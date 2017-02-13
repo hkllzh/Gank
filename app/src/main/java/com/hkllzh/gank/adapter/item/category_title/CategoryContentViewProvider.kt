@@ -12,23 +12,23 @@ import me.drakeet.multitype.ItemViewProvider
 /**
  * Created by lizheng on 2017/2/13.
  */
-class CategoryContentViewProvider : ItemViewProvider<CategoryContent, CategoryContentViewProvider.ViewHolder>() {
+class CategoryTitleViewProvider : ItemViewProvider<CategoryTitle, CategoryTitleViewProvider.ViewHolder>() {
 
-    override fun onBindViewHolder(holder: ViewHolder, t: CategoryContent) {
-        holder.title.text = t.contentTitle
+    override fun onBindViewHolder(holder: ViewHolder, t: CategoryTitle) {
+        holder.tvTitle.text = t.title
     }
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): ViewHolder {
-        val root = inflater.inflate(R.layout.item_category_content, parent, false)
+        val root = inflater.inflate(R.layout.item_category_title, parent, false)
         return ViewHolder(root)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val title: TextView
+        val tvTitle: TextView
 
         init {
-            this.title = itemView.findViewById(R.id.tvContent) as TextView
+            this.tvTitle = itemView.findViewById(R.id.tvTitle) as TextView
         }
     }
 }
