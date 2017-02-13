@@ -1,6 +1,7 @@
 package com.hkllzh.gank
 
 import android.app.Application
+import com.facebook.drawee.backends.pipeline.Fresco
 import io.realm.Realm
 
 /**
@@ -10,9 +11,14 @@ class GankApplication : Application() {
 
     override fun onCreate() {
         dbInit()
+        picInit()
     }
 
-    fun dbInit() {
+    private fun picInit() {
+        Fresco.initialize(this)
+    }
+
+    private fun dbInit() {
         Realm.init(this)
     }
 }

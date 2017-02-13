@@ -2,6 +2,7 @@ package com.hkllzh.gank.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -9,21 +10,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.gson.Gson
 import com.hkllzh.gank.R
-import com.hkllzh.gank.adapter.item.category_content.CategoryContent
-import com.hkllzh.gank.adapter.item.category_content.CategoryContentViewProvider
-import com.hkllzh.gank.adapter.item.category_content.CategoryTitle
-import com.hkllzh.gank.adapter.item.category_content.CategoryTitleViewProvider
+import com.hkllzh.gank.adapter.item.category_content.*
+import com.hkllzh.gank.bean.SingleContent
 import com.hkllzh.gank.db.HistoryDataDB
 import com.hkllzh.gank.event.GetAllDate
 import com.hkllzh.gank.net.APIManager
 import com.hkllzh.gank.net.GankApi
+import com.hkllzh.gank.util.DEFAULT_CATEGORY_ORDER
 import com.hkllzh.gank.util.RxBus
 import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
+import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 
@@ -35,6 +38,7 @@ class SingleDayContentFragment : Fragment() {
     private val TAG = "SingleDayContentFrg"
 
     private var recyclerView: RecyclerView by Delegates.notNull()
+    private var swipeRefreshLayout: SwipeRefreshLayout by Delegates.notNull()
 
     private var dateStr = ""
     private val item = Items()
@@ -50,10 +54,19 @@ class SingleDayContentFragment : Fragment() {
         recyclerView = v.findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener {
+            Observable.timer(300, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        swipeRefreshLayout.isRefreshing = false
+                    }
+        }
+
 
         adapter = MultiTypeAdapter()
         adapter?.register(CategoryContent::class.java, CategoryContentViewProvider())
         adapter?.register(CategoryTitle::class.java, CategoryTitleViewProvider())
+        adapter?.register(CategoryWeal::class.java, CategoryWealViewProvider())
         recyclerView.adapter = adapter
 
         return v
@@ -124,13 +137,46 @@ class SingleDayContentFragment : Fragment() {
                         return@subscribe
                     }
 
+                    Collections.sort(category, {
+                        s1, s2 ->
+                        var i1: Int = 10
+                        var i2: Int = 10
+
+                        DEFAULT_CATEGORY_ORDER.forEachIndexed { index, value ->
+                            if (value == s1) {
+                                i1 = index
+                                return@forEachIndexed
+                            }
+                        }
+
+                        DEFAULT_CATEGORY_ORDER.forEachIndexed { index, value ->
+                            if (value == s2) {
+                                i2 = index
+                                return@forEachIndexed
+                            }
+                        }
+
+                        return@sort i1 - i2
+                    })
+
+                    item.clear()
+
                     if (jsonObject.has("results") && jsonObject.get("results").isJsonObject) {
-                        jsonObject.get("category").asJsonArray.forEach {
+                        category.forEach {
                             title ->
                             val jsonResult = jsonObject.get("results").asJsonObject
-                            item.add(CategoryTitle(title = title.asString))
-                            jsonResult.get(title.asString).asJsonArray.forEach {
-                                item.add(CategoryContent(it.asJsonObject.get("desc").asString))
+                            if (DEFAULT_CATEGORY_ORDER[0] != title) {
+                                item.add(CategoryTitle(title))
+                            }
+                            jsonResult.get(title).asJsonArray.forEach {
+                                val single: SingleContent = Gson().fromJson(it, SingleContent::class.java)
+                                if (DEFAULT_CATEGORY_ORDER[0] == title) {
+                                    // 福利
+                                    item.add(CategoryWeal(it.asJsonObject["url"].asString))
+                                } else {
+                                    item.add(CategoryContent(single))
+                                }
+
                             }
                         }
                     }
