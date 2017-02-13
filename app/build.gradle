@@ -64,6 +64,8 @@ dependencies {
 
     // 图片加载 支持
     compile "com.facebook.fresco:fresco:$rootProject.ext.fresco_version"
+    compile "com.facebook.fresco:animated-gif:$rootProject.ext.fresco_version"
+    compile "com.facebook.fresco:imagepipeline-okhttp3:$rootProject.ext.fresco_version"
 
     // RecyclerView 多 item 支持库
     compile('me.drakeet.multitype:multitype:2.4.1', {

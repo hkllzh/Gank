@@ -1,17 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/margin_left"
-    android:layout_marginRight="@dimen/margin_right"
-    android:layout_marginTop="@dimen/margin_top"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:ignore="RtlHardcoded">
 
-    <TextView
-        android:id="@+id/tvTitle"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0.5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#d1d1d1" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:textColor="#666666"
+        android:textSize="16sp"
+        tools:text="android 信用卡提交效果信用卡提交效果信用卡提交效果信用卡提交效果信用卡提交效果信用卡提交效果" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/imavPic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fresco:actualImageScaleType="centerInside"
+        fresco:placeholderImage="@drawable/ic_refresh_white_48dp"
+        fresco:viewAspectRatio="2" />
+
+    <LinearLayout
+        android:id="@+id/llTwoPic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/imavPicFirst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            fresco:actualImageScaleType="centerInside"
+            fresco:placeholderImage="@drawable/ic_refresh_white_48dp"
+            fresco:viewAspectRatio="1" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/imavPicSecond"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            fresco:actualImageScaleType="centerInside"
+            fresco:placeholderImage="@drawable/ic_refresh_white_48dp"
+            fresco:viewAspectRatio="1" />
+    </LinearLayout>
+
 
 </LinearLayout>
