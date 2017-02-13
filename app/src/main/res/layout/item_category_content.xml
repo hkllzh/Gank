@@ -7,6 +7,14 @@
     android:orientation="vertical"
     tools:ignore="RtlHardcoded">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#d1d1d1" />
+
     <TextView
         android:id="@+id/tvContent"
         android:layout_width="match_parent"
@@ -27,12 +35,36 @@
         fresco:placeholderImage="@drawable/ic_refresh_white_48dp"
         fresco:viewAspectRatio="2" />
 
-    <View
+    <LinearLayout
+        android:id="@+id/llTwoPic"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:background="#d1d1d1" />
+        android:orientation="horizontal">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/imavPicFirst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            fresco:actualImageScaleType="centerInside"
+            fresco:placeholderImage="@drawable/ic_refresh_white_48dp"
+            fresco:viewAspectRatio="1" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/imavPicSecond"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            fresco:actualImageScaleType="centerInside"
+            fresco:placeholderImage="@drawable/ic_refresh_white_48dp"
+            fresco:viewAspectRatio="1" />
+    </LinearLayout>
+
 
 </LinearLayout>
