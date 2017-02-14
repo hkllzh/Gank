@@ -3,6 +3,7 @@ package com.hkllzh.gank.ui
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
@@ -45,10 +46,10 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         val tabLayout = findViewById(R.id.tabLayout) as TabLayout
 
-        tabFrgs.add(TabFragmentBean("收藏", SingleDayContentFragment.newInstance()))
+        tabFrgs.add(TabFragmentBean("收藏", Fragment()))
         tabFrgs.add(TabFragmentBean("今日", SingleDayContentFragment.newInstance()))
-        tabFrgs.add(TabFragmentBean("历史", SingleDayContentFragment.newInstance()))
-        tabFrgs.add(TabFragmentBean("Android", SingleDayContentFragment.newInstance()))
+        tabFrgs.add(TabFragmentBean("历史", Fragment()))
+        tabFrgs.add(TabFragmentBean("Android", Fragment()))
 
         val viewPager = findViewById(R.id.viewPager) as ViewPager
         val viewPagerAdapter = IndexViewPagerAdapter(supportFragmentManager)

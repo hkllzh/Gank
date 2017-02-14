@@ -11,9 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.hkllzh.gank.R
 import com.hkllzh.gank.adapter.item.category_content.*
 import com.hkllzh.gank.bean.SingleContent
+import com.hkllzh.gank.db.ContentDB
 import com.hkllzh.gank.db.HistoryDataDB
 import com.hkllzh.gank.event.GetAllDate
 import com.hkllzh.gank.net.APIManager
@@ -79,12 +81,18 @@ class SingleDayContentFragment : Fragment() {
         dateStr = HistoryDataDB.newInstance()?.latest()!!
         Log.d(TAG, "lastDate = $dateStr" + this + Thread.currentThread().id)
         if (!TextUtils.isEmpty(dateStr)) {
-            requestDayContent(dateStr)
+            val content = ContentDB.newInstance()?.findContentByDate(dateStr)
+            if (!TextUtils.isEmpty(content)) {
+                val jsonObject = Gson().fromJson(content, JsonObject::class.java)
+                showData(jsonObject)
+            } else {
+                requestDayContent(dateStr)
+            }
+
         }
 
         RxBus.getDefault().toObservable(GetAllDate::class.java).subscribe {
             val date = HistoryDataDB.newInstance()?.latest()!!
-            Log.d(TAG, "dateStr = $date" + this + Thread.currentThread().id)
             if (date == dateStr) {
                 Log.d(TAG, "不需要更新")
             } else {
@@ -92,30 +100,6 @@ class SingleDayContentFragment : Fragment() {
                 requestDayContent(date)
             }
         }
-
-//        APIManager.getApi(GankApi::class.java).category("Android", 2, 1)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        { jsonObject ->
-//                            Log.d(TAG, "onNext-->" + jsonObject.toString())
-//                        },
-//                        {
-//                            Log.d(TAG, "onError-->" + it)
-//                            it?.printStackTrace()
-//                        },
-//                        {
-//                            Log.d(TAG, "onCompleted-->")
-//                        }
-//                )
-
-//        APIManager.getApi(GankApi::class.java).haveDataHistory()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe {
-//                    Log.d(TAG, it.toString())
-//                    tvTest.text = it.toString()
-//                }
     }
 
     private fun requestDayContent(d: String) {
@@ -125,67 +109,77 @@ class SingleDayContentFragment : Fragment() {
                 .subscribe({
                     jsonObject ->
 
-                    var category: ArrayList<String>? = null
-                    if (jsonObject.has("category") && jsonObject.get("category").isJsonArray) {
-                        category = ArrayList()
-                        jsonObject.get("category").asJsonArray.forEach {
-                            category?.add(it.asString)
-                        }
-                    }
+                    ContentDB.newInstance()?.add(d, jsonObject.toString())
 
-                    if (null == category || 0 == category.size) {
-                        return@subscribe
-                    }
-
-                    Collections.sort(category, {
-                        s1, s2 ->
-                        var i1: Int = 10
-                        var i2: Int = 10
-
-                        DEFAULT_CATEGORY_ORDER.forEachIndexed { index, value ->
-                            if (value == s1) {
-                                i1 = index
-                                return@forEachIndexed
-                            }
-                        }
-
-                        DEFAULT_CATEGORY_ORDER.forEachIndexed { index, value ->
-                            if (value == s2) {
-                                i2 = index
-                                return@forEachIndexed
-                            }
-                        }
-
-                        return@sort i1 - i2
-                    })
-
-                    item.clear()
-
-                    if (jsonObject.has("results") && jsonObject.get("results").isJsonObject) {
-                        category.forEach {
-                            title ->
-                            val jsonResult = jsonObject.get("results").asJsonObject
-                            if (DEFAULT_CATEGORY_ORDER[0] != title) {
-                                item.add(CategoryTitle(title))
-                            }
-                            jsonResult.get(title).asJsonArray.forEach {
-                                val single: SingleContent = Gson().fromJson(it, SingleContent::class.java)
-                                if (DEFAULT_CATEGORY_ORDER[0] == title) {
-                                    // 福利
-                                    item.add(CategoryWeal(it.asJsonObject["url"].asString))
-                                } else {
-                                    item.add(CategoryContent(single))
-                                }
-
-                            }
-                        }
-                    }
-
-                    adapter?.setItems(item)
-                    adapter?.notifyDataSetChanged()
+                    if (showData(jsonObject)) return@subscribe
 
 
                 }, {}, {})
+    }
+
+    /**
+     * 显示数据
+     */
+    private fun showData(jsonObject: JsonObject): Boolean {
+        var category: ArrayList<String>? = null
+        if (jsonObject.has("category") && jsonObject.get("category").isJsonArray) {
+            category = ArrayList()
+            jsonObject.get("category").asJsonArray.forEach {
+                category?.add(it.asString)
+            }
+        }
+
+        if (null == category || 0 == category.size) {
+            return true
+        }
+
+        Collections.sort(category, {
+            s1, s2 ->
+            var i1: Int = 10
+            var i2: Int = 10
+
+            DEFAULT_CATEGORY_ORDER.forEachIndexed { index, value ->
+                if (value == s1) {
+                    i1 = index
+                    return@forEachIndexed
+                }
+            }
+
+            DEFAULT_CATEGORY_ORDER.forEachIndexed { index, value ->
+                if (value == s2) {
+                    i2 = index
+                    return@forEachIndexed
+                }
+            }
+
+            return@sort i1 - i2
+        })
+
+        item.clear()
+
+        if (jsonObject.has("results") && jsonObject.get("results").isJsonObject) {
+            category.forEach {
+                title ->
+                val jsonResult = jsonObject.get("results").asJsonObject
+                if (DEFAULT_CATEGORY_ORDER[0] != title) {
+                    item.add(CategoryTitle(title))
+                }
+                jsonResult.get(title).asJsonArray.forEach {
+                    val single: SingleContent = Gson().fromJson(it, SingleContent::class.java)
+                    if (DEFAULT_CATEGORY_ORDER[0] == title) {
+                        // 福利
+                        item.add(CategoryWeal(it.asJsonObject["url"].asString))
+                    } else {
+                        item.add(CategoryContent(single))
+                    }
+
+                }
+            }
+        }
+
+        adapter?.setItems(item)
+        adapter?.notifyDataSetChanged()
+        return false
     }
 
     companion object {
