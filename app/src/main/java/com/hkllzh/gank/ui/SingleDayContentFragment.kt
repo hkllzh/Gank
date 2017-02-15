@@ -57,9 +57,9 @@ class SingleDayContentFragment : BaseListFragment() {
     }
 
     override fun registerAdapterItem() {
-        adapter?.register(CategoryContent::class.java, CategoryContentViewProvider())
-        adapter?.register(CategoryTitle::class.java, CategoryTitleViewProvider())
-        adapter?.register(CategoryWeal::class.java, CategoryWealViewProvider())
+        mAdapter?.register(CategoryContent::class.java, CategoryContentViewProvider())
+        mAdapter?.register(CategoryTitle::class.java, CategoryTitleViewProvider())
+        mAdapter?.register(CategoryWeal::class.java, CategoryWealViewProvider())
     }
 
     override fun onRefresh() {
@@ -119,30 +119,30 @@ class SingleDayContentFragment : BaseListFragment() {
             return@sort i1 - i2
         })
 
-        item.clear()
+        mItem.clear()
 
         if (jsonObject.has("results") && jsonObject.get("results").isJsonObject) {
             category.forEach {
                 title ->
                 val jsonResult = jsonObject.get("results").asJsonObject
                 if (DEFAULT_CATEGORY_ORDER[0] != title) {
-                    item.add(CategoryTitle(title))
+                    mItem.add(CategoryTitle(title))
                 }
                 jsonResult.get(title).asJsonArray.forEach {
                     val single: SingleContent = Gson().fromJson(it, SingleContent::class.java)
                     if (DEFAULT_CATEGORY_ORDER[0] == title) {
                         // 福利
-                        item.add(CategoryWeal(it.asJsonObject["url"].asString))
+                        mItem.add(CategoryWeal(it.asJsonObject["url"].asString))
                     } else {
-                        item.add(CategoryContent(single))
+                        mItem.add(CategoryContent(single))
                     }
 
                 }
             }
         }
 
-        adapter?.setItems(item)
-        adapter?.notifyDataSetChanged()
+        mAdapter?.setItems(mItem)
+        mAdapter?.notifyDataSetChanged()
         return false
     }
 

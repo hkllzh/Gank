@@ -20,7 +20,7 @@ import me.drakeet.multitype.ItemViewProvider
 /**
  * Created by lizheng on 2017/2/13.
  */
-class CategoryContentViewProvider : ItemViewProvider<CategoryContent, CategoryContentViewProvider.ViewHolder>() {
+class CategoryContent_FavViewProvider : ItemViewProvider<CategoryContent, CategoryContent_FavViewProvider.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, t: CategoryContent) {
         holder.title.text = t.content.desc
@@ -29,6 +29,7 @@ class CategoryContentViewProvider : ItemViewProvider<CategoryContent, CategoryCo
             if (1 == t.content.images.size) {
                 holder.imavPic.visibility = View.VISIBLE
                 holder.llTwoPic.visibility = View.GONE
+
 
                 holder.imavPic.controller = Fresco.newDraweeControllerBuilder()
                         .setUri(Uri.parse(t.content.images[0] + PIC_OPTION_WIDTH_720))

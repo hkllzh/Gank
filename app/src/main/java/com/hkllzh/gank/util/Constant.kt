@@ -14,3 +14,4 @@ val DEFAULT_CATEGORY_ORDER: List<String> = listOf(
 )
 
 val PIC_OPTION_WIDTH_720 = "?imageView2/2/w/720"
+val PIC_OPTION_WIDTH_360 = "?imageView2/2/w/360"

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.hkllzh.gank.R
 import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
@@ -24,8 +25,9 @@ open abstract class BaseListFragment : Fragment() {
 
     protected var recyclerView: RecyclerView by Delegates.notNull()
     protected var swipeRefreshLayout: SwipeRefreshLayout by Delegates.notNull()
-    protected val item = Items()
-    protected var adapter: MultiTypeAdapter? = null;
+    protected val mItem = Items()
+    protected var mAdapter: MultiTypeAdapter? = null
+    protected var tvNoDataTip: TextView by Delegates.notNull()
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,14 +44,25 @@ open abstract class BaseListFragment : Fragment() {
                     }
         }
 
+        tvNoDataTip = v.findViewById(R.id.tvNoDataTip) as TextView
 
-        adapter = MultiTypeAdapter()
+
+        mAdapter = MultiTypeAdapter()
         registerAdapterItem()
-        recyclerView.adapter = adapter
+        recyclerView.adapter = mAdapter
 
+        haveData()
         return v
     }
 
+    protected fun haveData() {
+        tvNoDataTip.visibility = View.GONE
+    }
+
+    protected fun noData(tipInfo: String) {
+        tvNoDataTip.visibility = View.VISIBLE
+        tvNoDataTip.text = tipInfo
+    }
 
     abstract fun registerAdapterItem()
     abstract fun onRefresh()
