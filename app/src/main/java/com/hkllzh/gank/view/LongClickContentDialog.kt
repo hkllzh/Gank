@@ -6,34 +6,44 @@ import android.widget.Toast
 import com.hkllzh.gank.R
 import com.hkllzh.gank.adapter.item.category_content.CategoryContent
 import com.hkllzh.gank.db.FavDB
-import com.hkllzh.gank.event.FavChangeEvent
 import com.hkllzh.gank.util.BaseDialog
-import com.hkllzh.gank.util.RxBus
 
 /**
  * Created by lizheng on 2017/2/14.
  */
-class LongClickContentDialog(context: Context, date: CategoryContent) : BaseDialog(context, R.layout.dia_long_click_content) {
+class LongClickContentDialog(context: Context) : BaseDialog(context, R.layout.dia_long_click_content) {
+    private val TAG = "LongClickContentDialog"
     private var date: CategoryContent? = null
+    private var isFav: Boolean = false
     private var tvFav: TextView? = null
 
-    init {
-        this.date = date
+    override fun initView() {
+        tvFav = findViewById(R.id.tvFav) as TextView
     }
 
-    override fun initView() {
-        tvFav = `$`(R.id.tvFav)
-
+    override fun initData() {
         tvFav?.setOnClickListener {
-            Toast.makeText(context, "收藏", Toast.LENGTH_LONG).show()
-            FavDB.newInstance()?.add(date!!)
-            RxBus.getDefault().post(FavChangeEvent())
+            if (isFav) {
+                FavDB.newInstance()?.deleteFav(date!!)
+            } else {
+                FavDB.newInstance()?.add(date!!)
+            }
+            Toast.makeText(context, "操作成功", Toast.LENGTH_LONG).show()
             dismiss()
         }
     }
 
-    override fun initData() {
+    fun setData(data: CategoryContent, isFav: Boolean): Unit {
+        this.date = data
+        this.isFav = isFav
 
+        var text = ""
+        if (isFav) {
+            text = "取消收藏"
+        } else {
+            text = "收藏"
+        }
+        tvFav?.text = text
     }
 
 }

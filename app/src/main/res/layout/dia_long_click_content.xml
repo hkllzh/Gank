@@ -21,9 +21,9 @@
             android:background="@drawable/item_bg"
             android:clickable="true"
             android:gravity="center"
-            android:text="收藏"
             android:textColor="#333333"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:text="收藏" />
 
     </LinearLayout>
 

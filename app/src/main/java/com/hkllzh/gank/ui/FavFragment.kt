@@ -2,7 +2,7 @@ package com.hkllzh.gank.ui
 
 import android.os.Bundle
 import com.hkllzh.gank.adapter.item.category_content.CategoryContent
-import com.hkllzh.gank.adapter.item.category_content.CategoryContent_FavViewProvider
+import com.hkllzh.gank.adapter.item.category_content.CategoryContentViewProvider
 import com.hkllzh.gank.db.FavDB
 import com.hkllzh.gank.event.FavChangeEvent
 import com.hkllzh.gank.util.RxBus
@@ -36,7 +36,7 @@ class FavFragment : BaseListFragment() {
     }
 
     override fun registerAdapterItem() {
-        mAdapter?.register(CategoryContent::class.java, CategoryContent_FavViewProvider())
+        mAdapter?.register(CategoryContent::class.java, CategoryContentViewProvider(true))
     }
 
     override fun onRefresh() {
@@ -48,6 +48,12 @@ class FavFragment : BaseListFragment() {
 
         mAdapter?.setItems(mItem)
         mAdapter?.notifyDataSetChanged()
+
+        if (0 == data.size) {
+            noData("很抱歉！暂没有收藏数据")
+        } else {
+            haveData()
+        }
     }
 
     companion object {
