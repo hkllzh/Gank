@@ -18,6 +18,7 @@ import com.hkllzh.gank.bean.TabFragmentBean
 import com.hkllzh.gank.db.HistoryDataDB
 import com.hkllzh.gank.event.GetAllDate
 import com.hkllzh.gank.net.haveDataHistory
+import com.hkllzh.gank.util.DEFAULT_CATEGORY_ORDER
 import com.hkllzh.gank.util.RxBus
 import java.util.*
 
@@ -45,10 +46,13 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         val tabLayout = findViewById(R.id.tabLayout) as TabLayout
 
-        tabFrgs.add(TabFragmentBean("收藏", SingleDayContentFragment.newInstance()))
+        tabFrgs.add(TabFragmentBean("收藏", FavFragment.newInstance()))
         tabFrgs.add(TabFragmentBean("今日", SingleDayContentFragment.newInstance()))
-        tabFrgs.add(TabFragmentBean("历史", SingleDayContentFragment.newInstance()))
-        tabFrgs.add(TabFragmentBean("Android", SingleDayContentFragment.newInstance()))
+        tabFrgs.add(TabFragmentBean("历史", HistoryFragment.newInstance()))
+        DEFAULT_CATEGORY_ORDER.forEach {
+            category ->
+            tabFrgs.add(TabFragmentBean(category, CategoryFragment.newInstance(category)))
+        }
 
         val viewPager = findViewById(R.id.viewPager) as ViewPager
         val viewPagerAdapter = IndexViewPagerAdapter(supportFragmentManager)

@@ -81,6 +81,7 @@ class StudyRxJava {
         })
 
         observable.subscribe(observer1)
+        observable.subscribe(observer2)
     }
 
 }
