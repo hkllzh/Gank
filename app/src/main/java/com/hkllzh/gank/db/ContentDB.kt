@@ -15,7 +15,7 @@ class ContentDB private constructor() : BaseDB() {
     private val debug = true
     private val TAG = "ContentDB"
 
-    private val dbName = "content_data"
+    private val dbName = "content_data.realm"
     private val dbVersion = 1L
 
     fun add(dateStr: String, content: String) {

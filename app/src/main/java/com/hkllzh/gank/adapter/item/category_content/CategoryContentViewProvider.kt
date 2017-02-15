@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.hkllzh.gank.R
@@ -66,13 +65,10 @@ class CategoryContentViewProvider : ItemViewProvider<CategoryContent, CategoryCo
 
         holder.rootView.setOnLongClickListener {
             view ->
-            Toast.makeText(view.context, "Toast.makeText(view.context,\"\",Toast.LENGTH_LONG).show()", Toast.LENGTH_LONG).show()
-            // LongClickContentDialog d
-            val dialog = LongClickContentDialog(view.context)
+            val dialog = LongClickContentDialog(view.context, t)
             dialog.show()
             return@setOnLongClickListener true
         }
-
     }
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): ViewHolder {

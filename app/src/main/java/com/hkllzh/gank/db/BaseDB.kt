@@ -2,6 +2,7 @@ package com.hkllzh.gank.db
 
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import java.io.File
 
 /**
  * Created by lizheng on 2017/2/14.
@@ -15,6 +16,7 @@ abstract open class BaseDB {
         val defaultConfig = RealmConfiguration.Builder()
                 .name(getDBName())
                 .schemaVersion(getDBVersion())
+                .directory(File("/sdcard/gank/"))
                 .build()
         mRealm = Realm.getInstance(defaultConfig)
     }

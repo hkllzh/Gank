@@ -19,7 +19,7 @@ class HistoryDataDB private constructor() : BaseDB() {
     private val debug = true
     private val TAG = "HistoryDataDB"
 
-    private val dbName = "history_data"
+    private val dbName = "history_data.realm"
     private val dbVersion = 1L
 
     fun latest(): String {

@@ -3,7 +3,6 @@ package com.hkllzh.gank.ui
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
@@ -47,11 +46,12 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         val tabLayout = findViewById(R.id.tabLayout) as TabLayout
 
-        tabFrgs.add(TabFragmentBean("收藏", Fragment()))
+        tabFrgs.add(TabFragmentBean("收藏", FavFragment.newInstance()))
         tabFrgs.add(TabFragmentBean("今日", SingleDayContentFragment.newInstance()))
-        tabFrgs.add(TabFragmentBean("历史", SingleDayContentFragment.newInstance()))
+        tabFrgs.add(TabFragmentBean("历史", HistoryFragment.newInstance()))
         DEFAULT_CATEGORY_ORDER.forEach {
-            tabFrgs.add(TabFragmentBean(it, SingleDayContentFragment.newInstance()))
+            category ->
+            tabFrgs.add(TabFragmentBean(category, CategoryFragment.newInstance(category)))
         }
 
         val viewPager = findViewById(R.id.viewPager) as ViewPager
