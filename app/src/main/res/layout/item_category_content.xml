@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/item_bg"
     android:orientation="vertical"
     tools:ignore="RtlHardcoded">
 
@@ -26,6 +27,34 @@
         android:textColor="#666666"
         android:textSize="16sp"
         tools:text="android 信用卡提交效果信用卡提交效果信用卡提交效果信用卡提交效果信用卡提交效果信用卡提交效果" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        tools:ignore="SmallSp">
+
+        <TextView
+            android:id="@+id/tvAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#90CAF9"
+            android:padding="3dp"
+            android:textSize="10sp"
+            tools:text="\@lizheng" />
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:background="#90CAF9"
+            android:padding="3dp"
+            android:textSize="10sp"
+            tools:text="\#Android" />
+
+    </LinearLayout>
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/imavPic"
@@ -64,7 +93,12 @@
             fresco:actualImageScaleType="centerInside"
             fresco:placeholderImage="@drawable/ic_refresh_white_48dp"
             fresco:viewAspectRatio="1" />
+
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
 
 
 </LinearLayout>

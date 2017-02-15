@@ -16,4 +16,13 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <TextView
+        android:id="@+id/tvNoDataTip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="暂没有数据"
+        android:textSize="20sp" />
+
 </FrameLayout>
