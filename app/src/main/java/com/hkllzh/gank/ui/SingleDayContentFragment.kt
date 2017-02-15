@@ -135,8 +135,8 @@ class SingleDayContentFragment : Fragment() {
 
         Collections.sort(category, {
             s1, s2 ->
-            var i1: Int = 10
-            var i2: Int = 10
+            var i1: Int = DEFAULT_CATEGORY_ORDER.size * 2
+            var i2: Int = DEFAULT_CATEGORY_ORDER.size * 2
 
             DEFAULT_CATEGORY_ORDER.forEachIndexed { index, value ->
                 if (value == s1) {

@@ -7,6 +7,7 @@ val DEFAULT_CATEGORY_ORDER: List<String> = listOf(
         "福利",
         "Android",
         "iOS",
+        "前端",
         "瞎推荐",
         "拓展资源",
         "休息视频"

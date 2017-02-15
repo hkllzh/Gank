@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.hkllzh.gank.R
 import com.hkllzh.gank.util.PIC_OPTION_WIDTH_720
+import com.hkllzh.gank.view.LongClickContentDialog
 import me.drakeet.multitype.ItemViewProvider
 
 
@@ -60,6 +62,15 @@ class CategoryContentViewProvider : ItemViewProvider<CategoryContent, CategoryCo
             val intent = Intent(Intent.ACTION_VIEW);    //为Intent设置Action属性
             intent.data = Uri.parse(t.content.url) //为Intent设置DATA属性
             startActivity(holder.rootView.context, intent, null);
+        }
+
+        holder.rootView.setOnLongClickListener {
+            view ->
+            Toast.makeText(view.context, "Toast.makeText(view.context,\"\",Toast.LENGTH_LONG).show()", Toast.LENGTH_LONG).show()
+            // LongClickContentDialog d
+            val dialog = LongClickContentDialog(view.context)
+            dialog.show()
+            return@setOnLongClickListener true
         }
 
     }
